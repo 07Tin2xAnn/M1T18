@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Rocket : MonoBehaviour
+{
+    Rigidbody _rigidbody;
+    Scene scene;
+
+
+    // Use this for initialization
+    void Start()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        scene = SceneManager.GetActiveScene();
+
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ProcessInput();
+
+    }
+    public void ProcessInput()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            _rigidbody.AddRelativeForce(Vector3.up*10);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Rotate(Vector3.forward*10);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.Rotate(-Vector3.forward*10);
+        }
+    }
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name == "Ceiling" || col.gameObject.name == "Terrain" || col.gameObject.name == "Sphere"
+            || col.gameObject.name == "Sphere(1)" || col.gameObject.name == "Sphere(2)"
+            || col.gameObject.name == "Sphere(3)" || col.gameObject.name == "Sphere(4)" || col.gameObject.name == "wall"
+            || col.gameObject.name == "wall(1)")
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
+        if (col.gameObject.name == "Target Pad") {
+            col.gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
+ 
+}
+
+
